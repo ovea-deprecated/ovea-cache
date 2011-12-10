@@ -51,6 +51,7 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>1.5.2</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
