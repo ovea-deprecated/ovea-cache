@@ -21,23 +21,31 @@ package com.ovea.cache;
  *
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public final class SelfProvidingCache<T> implements Cache<T> {
-    private final MutableCache<T> delegate;
+public final class ConcurrentProvidingCache<T> implements Cache<T> {
+    private final ProvidingCache<T> delegate;
     private final CacheEntryProvider<T> provider;
 
-    public SelfProvidingCache(MutableCache<T> delegate, CacheEntryProvider<T> provider) {
+    public ConcurrentProvidingCache(ProvidingCache<T> delegate, CacheEntryProvider<T> provider) {
         this.delegate = delegate;
         this.provider = new NullSafeCacheEntryProvider<T>(provider);
     }
 
     @Override
     public T get(String key) throws CacheException {
+
         T val = delegate.get(key);
         if (val == null) {
-            CacheEntry<T> entry = provider.get(key);
+            lock(key);
+            CacheEntry<T> entry;
+            try {
+                entry = provider.get(key);
+            } catch (Throwable throwable) {
+                throw new CacheException(throwable);
+            }
             val = entry.value();
             delegate.add(entry);
         }
         return val;
     }
+
 }

@@ -18,9 +18,9 @@ package com.ovea.cache;
 /**
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public interface MutableCache<T> extends Cache<T> {
+public interface ProvidingCache<T> {
     /**
-     * @return The value associated for the key of null of none
+     * @return The value associated for the key or call the provider if not found
      */
-    void add(CacheEntry<T> entry);
+    T get(String key, CacheEntryProvider<T> provider) throws CacheException;
 }

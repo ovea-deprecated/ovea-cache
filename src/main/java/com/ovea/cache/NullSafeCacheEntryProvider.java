@@ -27,7 +27,7 @@ public final class NullSafeCacheEntryProvider<T> implements CacheEntryProvider<T
     }
 
     @Override
-    public CacheEntry<T> get(String key) throws CacheException {
+    public CacheEntry<T> get(String key) throws Throwable {
         CacheEntry<T> entry = delegate.get(key);
         return entry == null ? new CacheEntry<T>(key) : entry;
     }
