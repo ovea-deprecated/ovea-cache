@@ -24,4 +24,6 @@ public class ExpiringCacheEntry<T> extends CacheEntry<T> {
     public ExpiringCacheEntry(String key, T value, long expiration, TimeUnit unit) {
         super(key, value);
     }
+
+    //TODO: MATHIEU
 }

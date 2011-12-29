@@ -15,20 +15,18 @@
  */
 package com.ovea.cache;
 
+import com.ovea.cache.concurrent.ListenableFuture;
+
+import java.util.concurrent.Callable;
+
 /**
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public final class NullSafeCacheEntryProvider<T> implements CacheEntryProvider<T> {
+public interface CacheRepository<T> {
+    /**
+     * Prepare loading and creation of a cache entry
+     */
+    ListenableFuture<CacheEntry<T>> getOrLoad(String key, Callable<CacheEntry<T>> loader);
 
-    private final CacheEntryProvider<T> delegate;
-
-    public NullSafeCacheEntryProvider(CacheEntryProvider<T> delegate) {
-        this.delegate = delegate;
-    }
-
-    @Override
-    public CacheEntry<T> get(String key) throws Throwable {
-        CacheEntry<T> entry = delegate.get(key);
-        return entry == null ? new CacheEntry<T>(key) : entry;
-    }
+    CacheStats getStats();
 }

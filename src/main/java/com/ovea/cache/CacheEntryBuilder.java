@@ -18,6 +18,9 @@ package com.ovea.cache;
 /**
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public interface CacheEntryProvider<T> {
-    CacheEntry<T> get(String key) throws Throwable;
+public interface CacheEntryBuilder<T> {
+    /**
+     * Implemented by client app to build a value from a key. Null returns means no cache, so will try to build the cache entry again next time.
+     */
+    CacheEntry<T> build(String key) throws Exception;
 }

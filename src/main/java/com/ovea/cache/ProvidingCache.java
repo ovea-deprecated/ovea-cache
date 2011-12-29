@@ -15,12 +15,45 @@
  */
 package com.ovea.cache;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 /**
+ * Cache which automatically feeds the delegate cache if it does not contains the key (returns null), by asking
+ * the value to a provider
+ *
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public interface ProvidingCache<T> {
-    /**
-     * @return The value associated for the key or call the provider if not found
-     */
-    T get(String key, CacheEntryProvider<T> provider) throws CacheException;
+public final class ProvidingCache<T> implements Cache<T> {
+
+    private final CacheRepository<T> repository;
+    private final CacheEntryBuilder<T> loader;
+
+    public ProvidingCache(CacheRepository<T> repository, CacheEntryBuilder<T> loader) {
+        this.repository = repository;
+        this.loader = loader;
+    }
+
+    @Override
+    public CacheEntry<T> get(final String key) throws CacheException {
+        Future<CacheEntry<T>> entry = repository.getOrLoad(key, new Callable<CacheEntry<T>>() {
+            @Override
+            public CacheEntry<T> call() throws Exception {
+                return loader.build(key);
+            }
+        });
+        try {
+            return entry.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new CacheException(e);
+        } catch (ExecutionException e) {
+            throw new CacheException(e.getCause());
+        } catch (CancellationException e) {
+            throw new CacheException(e);
+        }
+    }
+
 }

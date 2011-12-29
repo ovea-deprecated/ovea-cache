@@ -27,8 +27,8 @@ public final class CacheException extends RuntimeException {
     }
 
     public CacheException(String message, Throwable cause) {
-        super(message, cause);
-        if (throwable instanceof CacheException) {
+        super(message, cause instanceof CacheException ? ((CacheException) cause).throwable : cause);
+        if (cause instanceof CacheException) {
             this.throwable = ((CacheException) cause).throwable;
         } else {
             this.throwable = cause;
