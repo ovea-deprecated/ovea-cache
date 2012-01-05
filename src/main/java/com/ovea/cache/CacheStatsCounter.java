@@ -15,6 +15,10 @@ public class CacheStatsCounter {
         hitCount.incrementAndGet();
     }
 
+    public void recordMiss() {
+        missCount.incrementAndGet();
+    }
+
     public void recordLoadSuccess(long loadTime) {
         missCount.incrementAndGet();
         loadSuccessCount.incrementAndGet();

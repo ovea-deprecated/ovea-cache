@@ -3,6 +3,6 @@ package com.ovea.cache;
 /**
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
-public class NoCacheRepository<T> extends CacheRepositorySkeleton<T> {
-
+public interface CacheLoader<T> {
+    T load(String key) throws Exception;
 }

@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
  * @author Mathieu Carbou (mathieu.carbou@gmail.com)
  */
 public interface FutureListener<V> {
-    void onComplete(Future<V> future);
+    void onComplete(ListenableFutureTask<V> task);
 
-    void onCancelled(Future<V> future);
+    void onCancelled(ListenableFutureTask<V> task);
 }

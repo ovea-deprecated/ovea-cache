@@ -21,6 +21,9 @@ package com.ovea.cache;
 public interface Cache<T> {
     /**
      * @return The value associated for the key or null if none
+     * @throws CacheException if an exception occured while getting the key
      */
-    CacheEntry<T> get(String key) throws CacheException;
+    T get(String key) throws CacheException;
+
+    CacheStats getStats();
 }

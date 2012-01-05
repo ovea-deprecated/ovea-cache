@@ -11,18 +11,18 @@ public abstract class DoneFutureListener<V> implements FutureListener<V> {
     private final AtomicBoolean called = new AtomicBoolean(false);
 
     @Override
-    public final void onComplete(Future<V> future) {
+    public final void onComplete(ListenableFutureTask<V> task) {
         if (called.compareAndSet(false, true)) {
-            onDone(future);
+            onDone(task);
         }
     }
 
     @Override
-    public final void onCancelled(Future<V> future) {
+    public final void onCancelled(ListenableFutureTask<V> task) {
         if (called.compareAndSet(false, true)) {
-            onDone(future);
+            onDone(task);
         }
     }
 
-    protected abstract void onDone(Future<V> future);
+    protected abstract void onDone(ListenableFutureTask<V> task);
 }
