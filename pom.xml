@@ -24,6 +24,32 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <header>https://github.com/Ovea/testatoo-license/raw/master/LICENSE</header>
+                    <strictCheck>true</strictCheck>
+                    <properties>
+                        <owner>Ovea</owner>
+                        <year>${project.inceptionYear}</year>
+                        <email>dev@ovea.com</email>
+                    </properties>
+                    <excludes>
+                        <exclude>README</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>**/*.ods</exclude>
+                        <exclude>**/.gitignore</exclude>
+                        <exclude>**/jndi.properties</exclude>
+                        <exclude>**/logging.properties</exclude>
+                        <exclude>**/*.js</exclude>
+                        <exclude>**/*.swf</exclude>
+                        <exclude>**/*.swf</exclude>
+                        <exclude>.idea/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
                 <version>1.0</version>
